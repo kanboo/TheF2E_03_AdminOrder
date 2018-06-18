@@ -1,0 +1,15 @@
+.main.orders {
+  @include flex(center);
+
+  margin-bottom: 70px;
+
+  .container {
+    @include flex(flex-start);
+
+    flex-direction: column;
+    width: 100%;
+    max-width: 1024px;
+    padding: 42px;
+    padding-top: 10px;
+  }
+}

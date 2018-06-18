@@ -1,0 +1,169 @@
+.main.index {
+  @include flex(center);
+
+  margin-bottom: 70px;
+
+  .container {
+    @include flex(flex-start);
+
+    flex-direction: column;
+    width: 100%;
+    max-width: 1024px;
+    padding: 42px;
+    padding-top: 10px;
+  }
+
+  .header {
+    @include flex(space-between, center);
+
+    background: $color-bg-gray;
+    h2 {
+      font-size: $font-size-title;
+      font-weight: bold;
+    }
+  }
+
+  .tileCounts {
+    @include flex(space-between, center);
+
+    width: 100%;
+    margin-bottom: 1.5rem;
+
+    .tileCount {
+      @include flex(center);
+
+      flex-direction: column;
+      min-width: 300px;
+      height: 138px;
+      background: $color-white;
+
+      .subtitle2 {
+        margin-bottom: 1rem;
+        font-size: $font-size-placeholder;
+        font-weight: bold;
+      }
+
+      .number {
+        font-size: 36px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .title {
+    font-size: $font-size-title;
+    font-weight: bold;
+  }
+
+  .graph {
+    width: 100%;
+    height: 406px;
+    margin-bottom: 1.8rem;
+    padding: 30px;
+    background: $color-white;
+  }
+
+  .otherInfo {
+    @include flex(space-between, flex-start);
+
+    width: 100%;
+  }
+
+  .websiteList,.orderList {
+    width: 100%;
+    max-width: 460px;
+    height: 456px;
+    padding: 30px 40px;
+    background: $color-white;
+  }
+
+  .rankingInfo {
+    // margin-top: 30px;
+
+    .rankingItem {
+      @include flex(flex-start, center);
+
+      padding: 24px 0;
+
+      .icon {
+        font-size: 45px;
+      }
+      .companyName {
+        margin-left: 1.5rem;
+        color: $color-gray-dark;
+        font-weight: bold;
+      }
+      .price {
+        margin-left: auto;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .ranking {
+        margin-left: 1.5rem;
+        font-size: 1rem;
+
+        &.up {
+          color: $color-green;
+        }
+
+        &.down {
+          color: $color-red;
+        }
+      }
+    }
+
+    .rankingItem + .rankingItem {
+      // padding-top: 8px;
+      border-top: 1px solid $color-gray-dark;
+    }
+  }
+
+  .orderInfor {
+    margin-top: 30px;
+
+    .orderItem {
+      @include flex(flex-start);
+      img {
+        @include size(100px);
+      }
+    }
+
+    .orderItem + .orderItem {
+      padding-top: 8px;
+      border-top: 1px solid $color-gray-dark;
+    }
+
+    .orderContent {
+      width: 100%;
+      padding: 10px;
+
+      .subtitle2 {
+        margin-bottom: 8px;
+        font-size: $font-size-subtitle;
+        font-weight: bold;
+      }
+
+      .row {
+        @include flex(space-between);
+        // margin-bottom: 8px;
+
+        color: $color-gray-dark;
+
+        span {
+          line-height: 28px;
+        }
+      }
+
+      .total {
+        color: $color-black;
+        font-weight: bold;
+      }
+
+      .price {
+        color: $color-black;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+}

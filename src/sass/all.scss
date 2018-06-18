@@ -1,0 +1,13 @@
+// -----------------------------------
+@import "@/sass/public/_reset.scss";
+@import "@/sass/public/_mixin.scss";
+
+// --基本設定--------------------------
+@import "@/sass/public/_variable.scss";
+@import "@/sass/public/_base.scss";
+
+// --頁面-----------------------------
+@import "@/sass/components/_AppHeader.scss";
+@import "@/sass/components/_Index.scss";
+// @import "@/assets/public/_main.scss";
+// @import "@/assets/public/_map.scss";

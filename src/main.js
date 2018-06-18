@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import ElementUI from 'element-ui';
+import VCharts from 'v-charts';
 
 import fontawesome from '@fortawesome/fontawesome';
 import faStar from '@fortawesome/fontawesome-free-regular/faStar';
@@ -12,13 +13,16 @@ import faSearch from '@fortawesome/fontawesome-free-solid/faSearch';
 import faGithub from '@fortawesome/fontawesome-free-brands/faGithub';
 
 import 'element-ui/lib/theme-chalk/index.css';
-import '@/assets/all.scss';
+import '@/sass/all.scss';
 
 import App from './App';
 import router from './router';
 import store from './store';
 
-Vue.use(VueAxios, axios, Vuex, ElementUI);
+Vue.use(VueAxios, axios);
+Vue.use(Vuex);
+Vue.use(ElementUI);
+Vue.use(VCharts);
 fontawesome.library.add(faStar, faSearch, faGithub);
 
 Vue.config.productionTip = false;
