@@ -8,13 +8,13 @@
           </div>
           <ul class="nav">
             <li>
-              <router-link to="/" class="active">HOME</router-link>
+              <router-link to="/">HOME</router-link>
             </li>
             <li>
-              <router-link to="/orders">ORDERS</router-link>
+              <router-link active-class to="/orders">ORDERS</router-link>
             </li>
             <li>
-              <router-link to="/product">PRODUCT</router-link>
+              <router-link active-class to="/product">PRODUCT</router-link>
             </li>
           </ul>
           <div class="login">
@@ -23,7 +23,6 @@
         </div>
 
       </header>
-
       <router-view/>
 
 

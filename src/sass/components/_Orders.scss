@@ -12,4 +12,52 @@
     padding: 42px;
     padding-top: 10px;
   }
+
+  .el-dropdown {
+    margin-top: 30px;
+    margin-left: 36px;
+  }
+  .el-table {
+    margin-top: 1rem;
+    padding: 20px;
+    padding-bottom: 30px;
+  }
+  .el-table td {
+    vertical-align: top;
+  }
+
+  .productList {
+    .title {
+      color: #000000;
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .item {
+      padding-bottom: 8px;
+    }
+
+    .item + .item {
+      padding-top: 8px;
+      border-top: 1px solid #ffffff;
+    }
+
+    .info {
+      @include flex(space-between);
+    }
+
+    .price {
+      color: #9b9b9b;
+      font-size: 14px;
+      line-height: 21px;
+    }
+
+    .count {
+      padding-right: 10px;
+      text-align: right;
+      color: #000000;
+      font-size: 14px;
+      line-height: 21px;
+    }
+  }
 }

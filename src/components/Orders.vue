@@ -1,40 +1,119 @@
 <template>
-  <div class="main index">
+  <div class="main orders">
     <div class="container">
 
 
+      <el-dropdown trigger="click" @command="handleCommand">
+        <span class="el-dropdown-link">
+          <i class="fas fa-tag"></i>
+          勾選項目<i class="fas fa-caret-down"></i>：
+          {{ dropdownSelect}}
+        </span>
+        <el-dropdown-menu slot="dropdown" >
+          <el-dropdown-item command="SelectAll">Select All</el-dropdown-item>
+          <el-dropdown-item command="UnselectAll">Unselect All</el-dropdown-item>
+          <el-dropdown-item command="Paid">Paid</el-dropdown-item>
+          <el-dropdown-item command="Unpaid">Unpaid</el-dropdown-item>
+          <el-dropdown-item command="Shipping">Shipping</el-dropdown-item>
+          <el-dropdown-item command="Done">Done</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+
       <el-table
-        :data="tableData6"
-        :span-method="objectSpanMethod"
-        border
-        @selection-change="handleSelectionChange"
-        style="width: 100%; margin-top: 20px">
+        ref="multipleTable"
+        :data="tableData"
+        stripe
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+
         <el-table-column
           type="selection"
           width="55">
         </el-table-column>
 
         <el-table-column
-          prop="id"
-          label="ID"
+          label="Customer"
+          width="130">
+          <template slot-scope="scope">{{ scope.row.customer }}</template>
+        </el-table-column>
+
+        <el-table-column
+          label="Product List"
+          width="140">
+          <template slot-scope="scope">
+            <ul class="productList">
+              <li class="item" v-for="item in scope.row.productList" :key="item.name">
+                <span class="title">{{ item.name }}</span>
+                <div class="info">
+                  <span class="price">
+                    {{ '$' + item.price.toLocaleString('en-US') }}
+                  </span>
+                  <span class="count">{{ item.count }}</span>
+                </div>
+              </li>
+            </ul>
+
+
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="Total"
+          width="100"
+          >
+          <template slot-scope="scope"
+          >
+          {{ '$'+ scope.row.total.toLocaleString('en-US') }}
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          label="Add to Cart"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.addTime }}</template>
+        </el-table-column>
+
+        <el-table-column
+          label="Check-out"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.checkOut }}</template>
+        </el-table-column>
+
+        <!-- <el-table-column
+          label="address"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.address }}</template>
+        </el-table-column>
+
+        <el-table-column
+          label="Phone"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.phone }}</template>
+        </el-table-column>
+
+        <el-table-column
+          label="Email"
+          width="120">
+          <template slot-scope="scope">{{ scope.row.email }}</template>
+        </el-table-column> -->
+
+        <el-table-column
+          label="Status"
           width="180">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="姓名">
-        </el-table-column>
-        <el-table-column
-          sortable
-          prop="amount1"
-          label="数值 1（元）">
-        </el-table-column>
-        <el-table-column
-          prop="amount2"
-          label="数值 2（元）">
-        </el-table-column>
-        <el-table-column
-          prop="amount3"
-          label="数值 3（元）">
+          <template slot-scope="scope">
+            <!-- {{ scope.row.status }} -->
+
+            <el-dropdown size="small" split-button type="primary">
+            {{ scope.row.status }}
+            <el-dropdown-menu slot="dropdown" v-model="scope.row.status">
+              <el-dropdown-item>黄金糕</el-dropdown-item>
+              <el-dropdown-item>狮子头</el-dropdown-item>
+              <el-dropdown-item>螺蛳粉</el-dropdown-item>
+              <el-dropdown-item>双皮奶</el-dropdown-item>
+              <el-dropdown-item>蚵仔煎</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -47,62 +126,80 @@ export default {
   name: 'Orders',
   data() {
     return {
-      tableData6: [
+      tableData: [
         {
-          id: '12987122',
-          name: '王小虎',
-          amount1: '234',
-          amount2: '3.2',
-          amount3: 10
+          orderID: 'T0001',
+          customer: 'Ian Medina',
+          productList: [
+            { name: 'Vestibulum.', price: 1000, count: 10 },
+            { name: 'Curabitur lo.', price: 2000, count: 10 },
+            { name: 'Nam porttito.', price: 3000, count: 10 }
+          ],
+          total: 1000,
+          addTime: '2018/6/8 13:39',
+          checkOut: '2018/6/8 13:39',
+          address: '386 Windler Drives',
+          phone: '0912345678',
+          email: 'boss@gmail.com',
+          status: 'DONE'
         },
         {
-          id: '12987123',
-          name: '王小虎',
-          amount1: '165',
-          amount2: '4.43',
-          amount3: 12
+          orderID: 'T0002',
+          customer: 'Manuel Stephens',
+          productList: [{ name: 'Vestibulum.', price: 1000, count: 10 }],
+          total: 1000,
+          addTime: '2018/6/8 13:39',
+          checkOut: '2018/6/8 13:39',
+          address: '386 Windler Drives',
+          phone: '0912345678',
+          email: 'boss@gmail.com',
+          status: 'DONE'
         },
         {
-          id: '12987124',
-          name: '王小虎',
-          amount1: '324',
-          amount2: '1.9',
-          amount3: 9
-        },
-        {
-          id: '12987125',
-          name: '王小虎',
-          amount1: '621',
-          amount2: '2.2',
-          amount3: 17
-        },
-        {
-          id: '12987126',
-          name: '王小虎',
-          amount1: '539',
-          amount2: '4.1',
-          amount3: 15
+          orderID: 'T0003',
+          customer: 'Daisy Reynolds',
+          productList: [
+            { name: 'Vestibulum.', price: 1000, count: 10 },
+            { name: 'Curabitur lo', price: 2000, count: 10 },
+            { name: 'Nam porttito.', price: 3000, count: 10 },
+            { name: 'Donec facili.', price: 2000, count: 10 }
+          ],
+          total: 1000,
+          addTime: '2018/6/8 13:39',
+          checkOut: '2018/6/8 13:39',
+          address: '386 Windler Drives',
+          phone: '0912345678',
+          email: 'boss@gmail.com',
+          status: 'PAID'
         }
       ],
+      dropdownSelect: '',
       multipleSelection: []
     };
   },
   methods: {
-    // eslint-disable-next-line
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        if (rowIndex % 3 === 0) {
-          return {
-            rowspan: 2,
-            colspan: 1
-          };
-          // eslint-disable-next-line
-        } else {
-          return {
-            rowspan: 0,
-            colspan: 0
-          };
-        }
+    handleCommand(command) {
+      // console.log(command);
+      this.dropdownSelect = command;
+
+      switch (command.toUpperCase()) {
+        case 'SelectAll'.toUpperCase():
+          this.tableData.forEach(item => {
+            this.$refs.multipleTable.toggleRowSelection(item, true);
+          });
+          break;
+        case 'UnselectAll'.toUpperCase():
+          this.dropdownSelect = ''; // 清空
+          this.$refs.multipleTable.clearSelection();
+          break;
+        default:
+          this.tableData.forEach(item => {
+            if (item.status.toUpperCase() === command.toUpperCase()) {
+              this.$refs.multipleTable.toggleRowSelection(item, true);
+            } else {
+              this.$refs.multipleTable.toggleRowSelection(item, false);
+            }
+          });
       }
     },
     handleSelectionChange(val) {

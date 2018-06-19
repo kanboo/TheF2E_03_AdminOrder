@@ -7,33 +7,35 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const state = {
-  showLoading: false,
-  isLogin: false,
-  userName: '',
-  count: 0
+  totalCost: 10000,
+  netIncome: 30000
+};
+
+/**
+computed:{
+  ...mapGetters(['showLoading','isLogin','userName'])
+},
+ */
+const getters = {
+  totalCost: state => state.totalCost,
+  netIncome: state => state.netIncome
 };
 
 // vue 裡用 this.$store.commit('showLoading' , true)
 // mutation 必須是同步函數, 很重要
 const mutations = {
-  isLogin(state, value) {
-    state.isLogin = value;
+  totalCost(state, value) {
+    state.totalCost = value;
   },
-  showLoading(state, value) {
-    state.showLoading = value;
-  },
-  userName(state, name) {
-    state.userName = name;
-  },
-  count(state) {
-    state.count += 1;
+  netIncome(state, value) {
+    state.netIncome = value;
   }
 };
 
 /*
 vue 裡用 this.$store.dispatch('showLoading' , true)
 methods(){
-  ...Vuex.mapActions(['showLoading','count']),
+  ...mapActions(['showLoading','count']),
 }
 Action 類似於 mutation，不同在於：
 Action 提交的是 mutation，而不是直接變更狀態。
@@ -45,7 +47,7 @@ const actions = {
     commit('showLoading', value);
   },
   login({ commit }, { email, password }) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       commit('showLoading', true);
       console.log('action login', email, password);
       setTimeout(async () => {
@@ -65,23 +67,11 @@ const actions = {
   }
 };
 
-/**
-computed:{
-  ...Vuex.mapGetters(['showLoading','isLogin','userName'])
-},
- */
-const getters = {
-  showLoading: state => state.showLoading,
-  isLogin: state => state.isLogin,
-  userName: state => state.userName,
-  count: state => state.count
-};
-
 // https://vuex.vuejs.org/en/plugins.html
 // Plugins
-const myPlugin = (store) => {
+const myPlugin = store => {
   // called when the store is initialized
-  store.subscribe((mutation) => {
+  store.subscribe(mutation => {
     // called after every mutation.
     console.log(mutation);
     // The mutation comes in the format of { type, payload }.
