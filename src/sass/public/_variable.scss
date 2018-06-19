@@ -30,3 +30,39 @@ $font-family-placeholder: "Helvetica-Regular";
 // breakpoint
 $mq-pad: 768px;
 $mq-mobile: 520px;
+
+.green {
+  color: $color-green;
+}
+
+.red {
+  color: $color-red;
+}
+
+.blue {
+  color: $color-blue;
+}
+
+.gray {
+  color: $color-gray-dark;
+}
+
+.bg-green {
+  color: $color-white;
+  background: $color-green;
+}
+
+.bg-red {
+  color: $color-white;
+  background: $color-red;
+}
+
+.bg-blue {
+  color: $color-white;
+  background: $color-blue;
+}
+
+.bg-gray {
+  color: $color-white;
+  background: $color-gray-dark;
+}

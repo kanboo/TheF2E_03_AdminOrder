@@ -13,10 +13,11 @@
     padding-top: 10px;
   }
 
-  .el-dropdown {
+  .tagSelect {
     margin-top: 30px;
     margin-left: 36px;
   }
+
   .el-table {
     margin-top: 1rem;
     padding: 20px;
@@ -59,5 +60,13 @@
       font-size: 14px;
       line-height: 21px;
     }
+  }
+
+  .el-dropdown-link {
+    cursor: pointer;
+  }
+
+  .statusSelect {
+    width: 100px;
   }
 }

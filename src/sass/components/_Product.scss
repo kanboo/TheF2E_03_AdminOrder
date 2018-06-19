@@ -1,0 +1,56 @@
+.main.product {
+  @include flex(center);
+
+  margin-bottom: 70px;
+
+  .container {
+    @include flex(flex-start);
+
+    flex-direction: column;
+    width: 100%;
+    max-width: 1024px;
+    padding: 42px;
+    padding-top: 10px;
+  }
+
+  .tagSelect {
+    margin-top: 30px;
+    margin-left: 36px;
+  }
+
+  .el-table {
+    margin-top: 1rem;
+    padding: 20px;
+    padding-bottom: 30px;
+  }
+  .el-table td {
+    vertical-align: top;
+  }
+
+  .row {
+    @include flex(space-between, flex-start);
+
+    .column {
+      @include flex(flex-start);
+
+      flex-direction: column;
+
+      span + span {
+        margin: 8px 0;
+      }
+    }
+  }
+
+  .row + .row {
+    padding-top: 12px;
+    border-top: 1px solid #cccccc;
+  }
+
+  .textRight {
+    text-align: right;
+  }
+
+  .el-dropdown-link {
+    cursor: pointer;
+  }
+}

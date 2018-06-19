@@ -2,12 +2,11 @@
   <div class="main orders">
     <div class="container">
 
-
-      <el-dropdown trigger="click" @command="handleCommand">
+      <el-dropdown class="tagSelect" trigger="click" @command="handleTag">
         <span class="el-dropdown-link">
           <i class="fas fa-tag"></i>
           勾選項目<i class="fas fa-caret-down"></i>：
-          {{ dropdownSelect}}
+          {{ tagSelect}}
         </span>
         <el-dropdown-menu slot="dropdown" >
           <el-dropdown-item command="SelectAll">Select All</el-dropdown-item>
@@ -79,13 +78,13 @@
           <template slot-scope="scope">{{ scope.row.checkOut }}</template>
         </el-table-column>
 
-        <!-- <el-table-column
+        <el-table-column
           label="address"
           width="120">
           <template slot-scope="scope">{{ scope.row.address }}</template>
         </el-table-column>
 
-        <el-table-column
+        <!-- <el-table-column
           label="Phone"
           width="120">
           <template slot-scope="scope">{{ scope.row.phone }}</template>
@@ -99,20 +98,16 @@
 
         <el-table-column
           label="Status"
-          width="180">
+          width="120">
           <template slot-scope="scope">
             <!-- {{ scope.row.status }} -->
-
-            <el-dropdown size="small" split-button type="primary">
-            {{ scope.row.status }}
-            <el-dropdown-menu slot="dropdown" v-model="scope.row.status">
-              <el-dropdown-item>黄金糕</el-dropdown-item>
-              <el-dropdown-item>狮子头</el-dropdown-item>
-              <el-dropdown-item>螺蛳粉</el-dropdown-item>
-              <el-dropdown-item>双皮奶</el-dropdown-item>
-              <el-dropdown-item>蚵仔煎</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+            <el-select v-model="scope.row.status" class="statusSelect">
+              <el-option v-for="item in statusOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </template>
         </el-table-column>
       </el-table>
@@ -141,7 +136,7 @@ export default {
           address: '386 Windler Drives',
           phone: '0912345678',
           email: 'boss@gmail.com',
-          status: 'DONE'
+          status: 'Unpaid'
         },
         {
           orderID: 'T0002',
@@ -153,7 +148,7 @@ export default {
           address: '386 Windler Drives',
           phone: '0912345678',
           email: 'boss@gmail.com',
-          status: 'DONE'
+          status: 'Done'
         },
         {
           orderID: 'T0003',
@@ -170,17 +165,35 @@ export default {
           address: '386 Windler Drives',
           phone: '0912345678',
           email: 'boss@gmail.com',
-          status: 'PAID'
+          status: 'Paid'
         }
       ],
-      dropdownSelect: '',
-      multipleSelection: []
+      tagSelect: '',
+      multipleSelection: [],
+      statusOptions: [
+        {
+          value: 'Paid',
+          label: 'Paid'
+        },
+        {
+          value: 'Unpaid',
+          label: 'Unpaid'
+        },
+        {
+          value: 'Shipping',
+          label: 'Shipping'
+        },
+        {
+          value: 'Done',
+          label: 'Done'
+        }
+      ]
     };
   },
   methods: {
-    handleCommand(command) {
+    handleTag(command) {
       // console.log(command);
-      this.dropdownSelect = command;
+      this.tagSelect = command;
 
       switch (command.toUpperCase()) {
         case 'SelectAll'.toUpperCase():
@@ -189,7 +202,7 @@ export default {
           });
           break;
         case 'UnselectAll'.toUpperCase():
-          this.dropdownSelect = ''; // 清空
+          this.tagSelect = ''; // 清空
           this.$refs.multipleTable.clearSelection();
           break;
         default:

@@ -19,18 +19,6 @@
     font-weight: bold;
   }
 
-  .green {
-    color: $color-green;
-  }
-
-  .red {
-    color: $color-red;
-  }
-
-  .blue {
-    color: $color-blue;
-  }
-
   // 上層 ====================================
   .header {
     @include flex(space-between, center);
