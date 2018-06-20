@@ -2,21 +2,35 @@
   <div class="main orders">
     <div class="container">
 
-      <el-dropdown class="tagSelect" trigger="click" @command="handleTag">
-        <span class="el-dropdown-link">
-          <i class="fas fa-tag"></i>
-          勾選項目<i class="fas fa-caret-down"></i>：
-          {{ tagSelect}}
-        </span>
-        <el-dropdown-menu slot="dropdown" >
-          <el-dropdown-item command="SelectAll">Select All</el-dropdown-item>
-          <el-dropdown-item command="UnselectAll">Unselect All</el-dropdown-item>
-          <el-dropdown-item command="Paid">Paid</el-dropdown-item>
-          <el-dropdown-item command="Unpaid">Unpaid</el-dropdown-item>
-          <el-dropdown-item command="Shipping">Shipping</el-dropdown-item>
-          <el-dropdown-item command="Done">Done</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <div class="selectBox">
+        <el-dropdown class="tagSelect" trigger="click" @command="handleTag">
+          <span class="el-dropdown-link">
+            <i class="fas fa-tag"></i>
+            勾選項目<i class="fas fa-caret-down"></i>：
+            {{ tagSelect.label}}
+          </span>
+          <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-item
+              :command="item"
+              v-for="item in tagOptions" :key="item.value">
+              {{item.label}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <el-popover
+          placement="bottom"
+          width="130px"
+          trigger="click">
+          <el-checkbox-group v-model="editSectionSelect" class="editSection">
+            <el-checkbox :label="item"
+            v-for="item in editSectionOptions" :key="item">
+            </el-checkbox>
+          </el-checkbox-group>
+          <el-button slot="reference">click 激活</el-button>
+        </el-popover>
+
+      </div>
 
       <el-table
         ref="multipleTable"
@@ -31,14 +45,23 @@
         </el-table-column>
 
         <el-table-column
+          label="Order ID"
+          width="80"
+          v-if="isSectionSelect('Order ID')">
+          <template slot-scope="scope">{{ scope.row.orderID }}</template>
+        </el-table-column>
+
+        <el-table-column
           label="Customer"
-          width="130">
+          width="130"
+          v-if="isSectionSelect('Customer')">
           <template slot-scope="scope">{{ scope.row.customer }}</template>
         </el-table-column>
 
         <el-table-column
           label="Product List"
-          width="140">
+          width="160"
+          v-if="isSectionSelect('Product List')">
           <template slot-scope="scope">
             <ul class="productList">
               <li class="item" v-for="item in scope.row.productList" :key="item.name">
@@ -51,15 +74,13 @@
                 </div>
               </li>
             </ul>
-
-
           </template>
         </el-table-column>
 
         <el-table-column
           label="Total"
           width="100"
-          >
+          v-if="isSectionSelect('Total')">
           <template slot-scope="scope"
           >
           {{ '$'+ scope.row.total.toLocaleString('en-US') }}
@@ -68,39 +89,44 @@
 
         <el-table-column
           label="Add to Cart"
-          width="120">
+          width="120"
+          v-if="isSectionSelect('Add to Cart')">
           <template slot-scope="scope">{{ scope.row.addTime }}</template>
         </el-table-column>
 
         <el-table-column
           label="Check-out"
-          width="120">
+          width="120"
+          v-if="isSectionSelect('Check-out')">
           <template slot-scope="scope">{{ scope.row.checkOut }}</template>
         </el-table-column>
 
         <el-table-column
-          label="address"
-          width="120">
+          label="Address"
+          width="120"
+          v-if="isSectionSelect('Address')">
           <template slot-scope="scope">{{ scope.row.address }}</template>
         </el-table-column>
 
-        <!-- <el-table-column
+        <el-table-column
           label="Phone"
-          width="120">
+          width="120"
+          v-if="isSectionSelect('Phone')">
           <template slot-scope="scope">{{ scope.row.phone }}</template>
         </el-table-column>
 
         <el-table-column
           label="Email"
-          width="120">
+          width="120"
+          v-if="isSectionSelect('Email')">
           <template slot-scope="scope">{{ scope.row.email }}</template>
-        </el-table-column> -->
+        </el-table-column>
 
         <el-table-column
           label="Status"
-          width="120">
+          width="120"
+          v-if="isSectionSelect('Status')">
           <template slot-scope="scope">
-            <!-- {{ scope.row.status }} -->
             <el-select v-model="scope.row.status" class="statusSelect">
               <el-option v-for="item in statusOptions"
                 :key="item.value"
@@ -168,46 +194,85 @@ export default {
           status: 'Paid'
         }
       ],
-      tagSelect: '',
+      tagOptions: [
+        {
+          label: 'Select All',
+          value: 'SelectAll'
+        },
+        {
+          label: 'Unselect All',
+          value: 'UnselectAll'
+        },
+        {
+          label: 'Paid',
+          value: 'Paid'
+        },
+        {
+          label: 'Unpaid',
+          value: 'Unpaid'
+        },
+        {
+          label: 'Shipping',
+          value: 'Shipping'
+        },
+        {
+          label: 'Done',
+          value: 'Done'
+        }
+      ],
+      tagSelect: {},
       multipleSelection: [],
       statusOptions: [
         {
-          value: 'Paid',
-          label: 'Paid'
+          label: 'Paid',
+          value: 'Paid'
         },
         {
-          value: 'Unpaid',
-          label: 'Unpaid'
+          label: 'Unpaid',
+          value: 'Unpaid'
         },
         {
-          value: 'Shipping',
-          label: 'Shipping'
+          label: 'Shipping',
+          value: 'Shipping'
         },
         {
-          value: 'Done',
-          label: 'Done'
+          label: 'Done',
+          value: 'Done'
         }
-      ]
+      ],
+      editSectionOptions: [
+        'Order ID',
+        'Customer',
+        'Product List',
+        'Total',
+        'Add to Cart',
+        'Check-out',
+        'Address',
+        'Phone',
+        'Email',
+        'Status'
+      ],
+      editSectionSelect: ['Customer', 'Product List', 'Total', 'Add to Cart']
     };
   },
   methods: {
-    handleTag(command) {
+    handleTag(selectObj) {
       // console.log(command);
-      this.tagSelect = command;
+      this.tagSelect = selectObj;
 
-      switch (command.toUpperCase()) {
+      switch (selectObj.value.toUpperCase()) {
         case 'SelectAll'.toUpperCase():
           this.tableData.forEach(item => {
             this.$refs.multipleTable.toggleRowSelection(item, true);
           });
           break;
         case 'UnselectAll'.toUpperCase():
-          this.tagSelect = ''; // 清空
+          this.tagSelect = {}; // 清空
           this.$refs.multipleTable.clearSelection();
           break;
         default:
           this.tableData.forEach(item => {
-            if (item.status.toUpperCase() === command.toUpperCase()) {
+            if (item.status.toUpperCase() === selectObj.value.toUpperCase()) {
               this.$refs.multipleTable.toggleRowSelection(item, true);
             } else {
               this.$refs.multipleTable.toggleRowSelection(item, false);
@@ -217,6 +282,13 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    isSectionSelect(value) {
+      const index = this.editSectionSelect.findIndex(el => el === value);
+      if (index === -1) {
+        return false;
+      }
+      return true;
     }
   }
 };

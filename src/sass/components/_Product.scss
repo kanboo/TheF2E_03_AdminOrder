@@ -35,8 +35,8 @@
 
       flex-direction: column;
 
-      span + span {
-        margin: 8px 0;
+      span {
+        margin-bottom: 8px;
       }
     }
   }
@@ -44,6 +44,15 @@
   .row + .row {
     padding-top: 12px;
     border-top: 1px solid #cccccc;
+  }
+
+  .imgBox {
+    width: 100px;
+    height: 80px;
+    margin-top: 5px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
   }
 
   .textRight {

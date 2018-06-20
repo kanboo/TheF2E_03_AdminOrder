@@ -13,9 +13,28 @@
     padding-top: 10px;
   }
 
+  .selectBox {
+    @include flex(space-between, flex-end);
+
+    width: 100%;
+  }
+
   .tagSelect {
     margin-top: 30px;
     margin-left: 36px;
+  }
+
+  .editSection {
+    @include flex(flex-start);
+
+    flex-direction: column;
+    width: 130px;
+    padding: 10px;
+    background: $color-gray-light2;
+
+    .el-checkbox + .el-checkbox {
+      margin-left: 0;
+    }
   }
 
   .el-table {

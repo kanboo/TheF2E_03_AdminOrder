@@ -6,13 +6,14 @@
         <span class="el-dropdown-link">
           <i class="fas fa-tag"></i>
           勾選項目<i class="fas fa-caret-down"></i>：
-          {{ tagSelect}}
+          {{ tagSelect.label}}
         </span>
         <el-dropdown-menu slot="dropdown" >
-          <el-dropdown-item command="SelectAll">Select All</el-dropdown-item>
-          <el-dropdown-item command="UnselectAll">Unselect All</el-dropdown-item>
-          <el-dropdown-item command="PUBLISHED">PUBLISHED</el-dropdown-item>
-          <el-dropdown-item command="UNPUBLISHED">UNPUBLISHED</el-dropdown-item>
+          <el-dropdown-item
+            :command="item"
+            v-for="item in tagOptions" :key="item.value">
+            {{item.label}}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
 
@@ -32,7 +33,12 @@
         <el-table-column
           label="Product"
           width="150">
-          <template slot-scope="scope">{{ scope.row.name }}</template>
+          <template slot-scope="scope">
+            <span>{{ scope.row.name }}</span>
+            <div class="imgBox" :style="{backgroundImage: `url(${scope.row.imgUrl})`}">
+            </div>
+
+          </template>
         </el-table-column>
 
         <el-table-column
@@ -55,31 +61,20 @@
           label="Size"
           width="70">
           <template slot-scope="scope">
-            <div class="row inventoryInfo">
+            <div class="row inventoryInfo"
+              v-for="(item, index) in scope.row.productInfo" :key="index">
               <div class="column">
-                <span>L</span>
+                <span>{{item.size}}</span>
               </div>
               <div class="column">
-                <span>Gray</span>
-                <span>Black</span>
+                <span v-for="(inventory, index) in item.inventorys" :key="index">
+                  {{inventory.color}}
+                </span>
               </div>
               <div class="column">
-                <span>15</span>
-                <span>20</span>
-              </div>
-            </div>
-
-            <div class="row inventoryInfo">
-              <div class="column">
-                <span>M</span>
-              </div>
-              <div class="column">
-                <span>Gray</span>
-                <span>Black</span>
-              </div>
-              <div class="column">
-                <span>15</span>
-                <span>20</span>
+                <span v-for="(inventory, index) in item.inventorys" :key="index">
+                  {{inventory.count}}
+                </span>
               </div>
             </div>
           </template>
@@ -125,45 +120,98 @@ export default {
         {
           productID: 'T0001',
           name: 'Mauris non tem.',
+          imgUrl:
+            'https://s3.amazonaws.com/uifaces/faces/twitter/giuliusa/128.jpg',
           original: 3200,
           discount: 2800,
           status: 'PUBLISHED',
-          info_L: {
-            Gray: 15,
-            Black: 20
-          },
-          info_M: {
-            Gray: 15,
-            Black: 20,
-            Red: 10
-          },
-          info_S: {
-            Gray: 15,
-            Black: 20
-          }
+          productInfo: [
+            {
+              size: 'L',
+              inventorys: [
+                {
+                  color: 'aaa',
+                  count: 30
+                },
+                {
+                  color: 'bbb',
+                  count: 20
+                }
+              ]
+            },
+            {
+              size: 'M',
+              inventorys: [
+                {
+                  color: 'ccc',
+                  count: 300
+                }
+              ]
+            }
+          ]
         },
         {
           productID: 'T0002',
           name: 'Curabitur lobo.',
+          imgUrl:
+            'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
           original: 3200,
           discount: 2800,
           status: 'UNPUBLISHED',
-          info_L: {
-            Gray: 15,
-            Black: 20
-          },
-          info_M: {
-            Gray: 15,
-            Black: 20,
-            Red: 10
-          },
-          info_S: {
-            Gray: 15,
-            Black: 20
-          }
+          productInfo: [
+            {
+              size: 'L',
+              inventorys: [
+                {
+                  color: 'Red',
+                  count: 30
+                },
+                {
+                  color: 'Blue',
+                  count: 20
+                }
+              ]
+            },
+            {
+              size: 'M',
+              inventorys: [
+                {
+                  color: 'Orange',
+                  count: 300
+                }
+              ]
+            },
+            {
+              size: 'S',
+              inventorys: [
+                {
+                  color: 'Pink',
+                  count: 16
+                }
+              ]
+            }
+          ]
         }
       ],
-      tagSelect: '',
+      tagOptions: [
+        {
+          label: 'Select All',
+          value: 'SelectAll'
+        },
+        {
+          label: 'Unselect All',
+          value: 'UnselectAll'
+        },
+        {
+          label: 'Published',
+          value: 'Published'
+        },
+        {
+          label: 'UnPublished',
+          value: 'UnPublished'
+        }
+      ],
+      tagSelect: {},
       multipleSelection: [],
       statusOptions: [
         {
@@ -178,23 +226,23 @@ export default {
     };
   },
   methods: {
-    handleTag(command) {
+    handleTag(selectObj) {
       // console.log(command);
-      this.tagSelect = command;
+      this.tagSelect = selectObj;
 
-      switch (command.toUpperCase()) {
+      switch (selectObj.value.toUpperCase()) {
         case 'SelectAll'.toUpperCase():
           this.tableData.forEach(item => {
             this.$refs.multipleTable.toggleRowSelection(item, true);
           });
           break;
         case 'UnselectAll'.toUpperCase():
-          this.tagSelect = ''; // 清空
+          this.tagSelect = {}; // 清空
           this.$refs.multipleTable.clearSelection();
           break;
         default:
           this.tableData.forEach(item => {
-            if (item.status.toUpperCase() === command.toUpperCase()) {
+            if (item.status.toUpperCase() === selectObj.value.toUpperCase()) {
               this.$refs.multipleTable.toggleRowSelection(item, true);
             } else {
               this.$refs.multipleTable.toggleRowSelection(item, false);
@@ -207,6 +255,7 @@ export default {
     },
     // eslint-disable-next-line
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      // 合併 Size、Color、Inventory 三個欄位
       // console.log(row, column, rowIndex, columnIndex);
 
       if (columnIndex === 4) {
