@@ -14,26 +14,32 @@
   }
 
   .selectBox {
-    @include flex(space-between, flex-end);
+    @include flex(flex-start, flex-end);
 
     width: 100%;
-  }
 
-  .tagSelect {
-    margin-top: 30px;
-    margin-left: 36px;
-  }
+    .checkedTag {
+      margin-left: 31px;
+    }
 
-  .editSection {
-    @include flex(flex-start);
+    .tagSelect {
+      margin-top: 30px;
+      margin-right: auto;
+      margin-left: 5px;
+      font-weight: bold;
+    }
 
-    flex-direction: column;
-    width: 130px;
-    padding: 10px;
-    background: $color-gray-light2;
+    .el-dropdown-link {
+      cursor: pointer;
+    }
 
-    .el-checkbox + .el-checkbox {
-      margin-left: 0;
+    .bt-editSection {
+      width: 136px;
+      height: 29px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      font-weight: bold;
     }
   }
 
@@ -41,51 +47,93 @@
     margin-top: 1rem;
     padding: 20px;
     padding-bottom: 30px;
+    // background: $color-bg-gray;
+
+    &__header .el-checkbox {
+      display: none;
+    }
+
+    td {
+      vertical-align: top;
+    }
+
+    .productList {
+      .title {
+        color: #000000;
+        font-size: 14px;
+        line-height: 21px;
+      }
+
+      .item {
+        padding-bottom: 8px;
+      }
+
+      .item + .item {
+        padding-top: 8px;
+        border-top: 1px solid #ffffff;
+      }
+
+      .info {
+        @include flex(space-between);
+      }
+
+      .price {
+        color: #9b9b9b;
+        font-size: 14px;
+        line-height: 21px;
+      }
+
+      .count {
+        padding-right: 10px;
+        text-align: right;
+        color: #000000;
+        font-size: 14px;
+        line-height: 21px;
+      }
+    }
+
+    .statusSelect {
+      width: 100px;
+    }
   }
-  .el-table td {
-    vertical-align: top;
+}
+
+// 客製el樣式
+.tag-dropdown-menu {
+  .el-dropdown-menu__item:not(.is-disabled):hover {
+    color: #ffffff;
+    background-color: #000000;
+  }
+}
+
+.editSection {
+  width: 100px;
+  padding: 10px;
+
+  .el-checkbox-group {
+    @include flex(flex-start);
+
+    flex-direction: column;
+    padding-left: 10px;
+  }
+  // background: $color-gray-light2;
+
+  .el-checkbox {
+    color: #000000;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .el-checkbox + .el-checkbox {
+    margin-top: 1rem;
+    margin-left: 0;
   }
 
-  .productList {
-    .title {
-      color: #000000;
-      font-size: 14px;
-      line-height: 21px;
-    }
-
-    .item {
-      padding-bottom: 8px;
-    }
-
-    .item + .item {
-      padding-top: 8px;
-      border-top: 1px solid #ffffff;
-    }
-
-    .info {
-      @include flex(space-between);
-    }
-
-    .price {
-      color: #9b9b9b;
-      font-size: 14px;
-      line-height: 21px;
-    }
-
-    .count {
-      padding-right: 10px;
-      text-align: right;
-      color: #000000;
-      font-size: 14px;
-      line-height: 21px;
-    }
+  .el-checkbox__input.is-checked .el-checkbox__inner,.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    border-color: #000000;
+    background-color: #000000;
   }
 
-  .el-dropdown-link {
-    cursor: pointer;
-  }
-
-  .statusSelect {
-    width: 100px;
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #000000;
   }
 }

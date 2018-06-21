@@ -3,13 +3,23 @@
     <div class="container">
 
       <div class="selectBox">
-        <el-dropdown class="tagSelect" trigger="click" @command="handleTag">
+
+        <el-checkbox
+          v-model="isCheckedTag"
+          class="checkedTag"
+          @change="handTagSelect">
+        </el-checkbox>
+
+        <el-dropdown class="tagSelect"
+          placement="bottom-start"
+          trigger="click"
+          @command="handleTag">
           <span class="el-dropdown-link">
-            <i class="fas fa-tag"></i>
-            勾選項目<i class="fas fa-caret-down"></i>：
-            {{ tagSelect.label}}
+            <!-- <i class="fas fa-tag"></i> -->
+            <i class="fas fa-caret-down"></i>
+            <!-- {{ tagSelect.label}} -->
           </span>
-          <el-dropdown-menu slot="dropdown" >
+          <el-dropdown-menu slot="dropdown" class="tag-dropdown-menu">
             <el-dropdown-item
               :command="item"
               v-for="item in tagOptions" :key="item.value">
@@ -19,15 +29,20 @@
         </el-dropdown>
 
         <el-popover
-          placement="bottom"
+          placement="bottom-end"
           width="130px"
-          trigger="click">
-          <el-checkbox-group v-model="editSectionSelect" class="editSection">
+          trigger="click"
+          popper-class="editSection"
+          >
+          <el-checkbox-group v-model="editSectionSelect" >
             <el-checkbox :label="item"
             v-for="item in editSectionOptions" :key="item">
             </el-checkbox>
           </el-checkbox-group>
-          <el-button slot="reference">click 激活</el-button>
+          <el-button slot="reference" class="bt-editSection">
+            EDIT SECTION
+            <i class="fas fa-caret-down"></i>
+          </el-button>
         </el-popover>
 
       </div>
@@ -194,6 +209,7 @@ export default {
           status: 'Paid'
         }
       ],
+      isCheckedTag: false,
       tagOptions: [
         {
           label: 'Select All',
@@ -252,15 +268,22 @@ export default {
         'Email',
         'Status'
       ],
-      editSectionSelect: ['Customer', 'Product List', 'Total', 'Add to Cart']
+      editSectionSelect: [
+        'Customer',
+        'Product List',
+        'Total',
+        'Add to Cart',
+        'Status'
+      ]
     };
   },
   methods: {
     handleTag(selectObj) {
       // console.log(command);
       this.tagSelect = selectObj;
+      this.isCheckedTag = true;
 
-      switch (selectObj.value.toUpperCase()) {
+      switch (this.tagSelect.value.toUpperCase()) {
         case 'SelectAll'.toUpperCase():
           this.tableData.forEach(item => {
             this.$refs.multipleTable.toggleRowSelection(item, true);
@@ -268,16 +291,26 @@ export default {
           break;
         case 'UnselectAll'.toUpperCase():
           this.tagSelect = {}; // 清空
+          this.isCheckedTag = false;
           this.$refs.multipleTable.clearSelection();
           break;
         default:
           this.tableData.forEach(item => {
-            if (item.status.toUpperCase() === selectObj.value.toUpperCase()) {
+            if (
+              item.status.toUpperCase() === this.tagSelect.value.toUpperCase()
+            ) {
               this.$refs.multipleTable.toggleRowSelection(item, true);
             } else {
               this.$refs.multipleTable.toggleRowSelection(item, false);
             }
           });
+      }
+    },
+    handTagSelect() {
+      if (!this.isCheckedTag) {
+        this.tagSelect = {}; // 清空
+        this.isCheckedTag = false;
+        this.$refs.multipleTable.clearSelection();
       }
     },
     handleSelectionChange(val) {
