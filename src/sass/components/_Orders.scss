@@ -24,9 +24,13 @@
 
     .tagSelect {
       margin-top: 30px;
-      margin-right: auto;
+      margin-right: 16px;
       margin-left: 5px;
       font-weight: bold;
+    }
+
+    .stateChange {
+      margin-right: auto;
     }
 
     .el-dropdown-link {
@@ -34,6 +38,8 @@
     }
 
     .bt-editSection {
+      position: relative;
+      bottom: -5px;
       width: 136px;
       height: 29px;
       padding: 0;
@@ -53,13 +59,36 @@
       display: none;
     }
 
+    tr.done {
+      :not(.el-input__inner, .el-select__caret) {
+        text-decoration: line-through;
+        color: #9b9b9b;
+      }
+      .productList {
+        .title,.count {
+          color: #9b9b9b;
+        }
+      }
+    }
+
+    tr.unpaid {
+      :not(.el-input__inner, .el-select__caret) {
+        color: #9b9b9b;
+      }
+      .productList {
+        .title,.count {
+          color: #9b9b9b;
+        }
+      }
+    }
+
     td {
       vertical-align: top;
     }
 
     .productList {
       .title {
-        color: #000000;
+        color: $color-black;
         font-size: 14px;
         line-height: 21px;
       }
@@ -70,7 +99,7 @@
 
       .item + .item {
         padding-top: 8px;
-        border-top: 1px solid #ffffff;
+        border-top: 1px solid $color-white;
       }
 
       .info {
@@ -78,7 +107,7 @@
       }
 
       .price {
-        color: #9b9b9b;
+        color: $color-gray-dark;
         font-size: 14px;
         line-height: 21px;
       }
@@ -86,14 +115,40 @@
       .count {
         padding-right: 10px;
         text-align: right;
-        color: #000000;
+        color: $color-black;
         font-size: 14px;
         line-height: 21px;
       }
     }
 
+    .currency-title {
+      padding-right: 8px;
+      text-align: right;
+    }
+
+    .currency-content {
+      display: inline-block;
+      width: 100%;
+      text-align: right;
+    }
+
     .statusSelect {
-      width: 100px;
+      width: 108px;
+
+      .el-input__inner {
+        color: $color-white;
+        font-weight: bold;
+      }
+      .el-select__caret {
+        color: $color-white;
+      }
+
+      .el-input.is-focus .el-input__inner {
+        border-color: transparent;
+      }
+      .el-input__inner:focus {
+        border-color: transparent;
+      }
     }
   }
 }
@@ -101,8 +156,30 @@
 // 客製el樣式
 .tag-dropdown-menu {
   .el-dropdown-menu__item:not(.is-disabled):hover {
-    color: #ffffff;
-    background-color: #000000;
+    color: $color-white;
+    background-color: $color-black;
+  }
+}
+
+.stateChange-dropdown-menu {
+  width: 181px;
+
+  .stateChange__title {
+    display: inline-block;
+    width: 100%;
+    padding-bottom: 8px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .el-dropdown-menu__item {
+    text-align: center;
+  }
+
+  .el-dropdown-menu__item:not(.is-disabled):hover {
+    color: $color-white;
+    background-color: $color-black;
   }
 }
 
@@ -119,7 +196,7 @@
   // background: $color-gray-light2;
 
   .el-checkbox {
-    color: #000000;
+    color: $color-black;
     font-size: 1rem;
     font-weight: bold;
   }
@@ -129,11 +206,62 @@
   }
 
   .el-checkbox__input.is-checked .el-checkbox__inner,.el-checkbox__input.is-indeterminate .el-checkbox__inner {
-    border-color: #000000;
-    background-color: #000000;
+    border-color: $color-black;
+    background-color: $color-black;
   }
 
   .el-checkbox__input.is-checked + .el-checkbox__label {
-    color: #000000;
+    color: $color-black;
+  }
+}
+
+.statusOptions {
+  &.el-select-dropdown__item.hover,&.el-select-dropdown__item:hover {
+    color: $color-white;
+    background-color: $color-black;
+  }
+}
+
+.bg-paid {
+  color: $color-white;
+  border: $color-green;
+  border-radius: 5px;
+  background: $color-green;
+
+  .el-input__inner {
+    background: $color-green;
+  }
+}
+
+.bg-shipping {
+  color: $color-white;
+  border: $color-orange;
+  border-radius: 5px;
+  background: $color-orange;
+
+  .el-input__inner {
+    background: $color-orange;
+  }
+}
+
+.bg-done {
+  color: $color-white;
+  border: $color-blue;
+  border-radius: 5px;
+  background: $color-blue;
+
+  .el-input__inner {
+    background: $color-blue;
+  }
+}
+
+.bg-unpaid {
+  color: $color-white;
+  border: $color-gray-dark;
+  border-radius: 5px;
+  background: $color-gray-dark;
+
+  .el-input__inner {
+    background: $color-gray-dark;
   }
 }

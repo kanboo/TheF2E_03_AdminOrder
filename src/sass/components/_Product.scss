@@ -13,18 +13,76 @@
     padding-top: 10px;
   }
 
-  .tagSelect {
-    margin-top: 30px;
-    margin-left: 36px;
+  .selectBox {
+    @include flex(flex-start, flex-end);
+
+    width: 100%;
+
+    .checkedTag {
+      margin-left: 31px;
+    }
+
+    .tagSelect {
+      margin-top: 30px;
+      margin-right: 16px;
+      margin-left: 5px;
+      font-weight: bold;
+    }
   }
 
   .el-table {
     margin-top: 1rem;
     padding: 20px;
     padding-bottom: 30px;
-  }
-  .el-table td {
-    vertical-align: top;
+
+    &__header .el-checkbox {
+      display: none;
+    }
+
+    tr.unpublished {
+      :not(.el-input__inner, .el-select__caret) {
+        color: #9b9b9b;
+      }
+      .productList {
+        .title,.count {
+          color: #9b9b9b;
+        }
+      }
+    }
+
+    td {
+      vertical-align: top;
+    }
+
+    .currency-title {
+      padding-right: 16px;
+      text-align: right;
+    }
+
+    .currency-content {
+      display: inline-block;
+      width: 100%;
+      text-align: right;
+    }
+
+    .statusSelect {
+      width: 150px;
+
+      .el-input__inner {
+        color: $color-white;
+        font-weight: bold;
+      }
+      .el-select__caret {
+        color: $color-white;
+      }
+
+      .el-input.is-focus .el-input__inner {
+        border-color: transparent;
+      }
+      .el-input__inner:focus {
+        border-color: transparent;
+      }
+    }
   }
 
   .row {
@@ -34,9 +92,16 @@
       @include flex(flex-start);
 
       flex-direction: column;
+      width: 100%;
 
       span {
+        width: 100%;
         margin-bottom: 8px;
+      }
+
+      &:last-child {
+        padding-right: 22px;
+        text-align: right;
       }
     }
   }
@@ -56,10 +121,33 @@
   }
 
   .textRight {
+    padding-right: 16px;
     text-align: right;
   }
 
   .el-dropdown-link {
     cursor: pointer;
+  }
+}
+
+.bg-published {
+  color: $color-white;
+  border: $color-green;
+  border-radius: 5px;
+  background: $color-green;
+
+  .el-input__inner {
+    background: $color-green;
+  }
+}
+
+.bg-unpublished {
+  color: $color-white;
+  border: $color-gray-dark;
+  border-radius: 5px;
+  background: $color-gray-dark;
+
+  .el-input__inner {
+    background: $color-gray-dark;
   }
 }

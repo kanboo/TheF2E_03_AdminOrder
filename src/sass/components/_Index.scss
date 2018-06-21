@@ -24,9 +24,16 @@
     @include flex(space-between, center);
 
     background: $color-bg-gray;
+
     h2 {
       font-size: $font-size-title;
       font-weight: bold;
+    }
+
+    .daterange {
+      width: 74px;
+      text-align: right;
+      font-size: 16px;
     }
   }
 
@@ -103,16 +110,70 @@
         font-size: 20px;
         font-weight: bold;
       }
+
+      .up {
+        color: $color-green;
+      }
+      .down {
+        color: $color-red;
+      }
+
       .ranking {
+        position: relative;
         margin-left: 1.5rem;
         font-size: 1rem;
 
-        &.up {
-          color: $color-green;
+        .tip {
+          @include flex(center);
+
+          position: absolute;
+          z-index: 1;
+          top: -88px;
+          left: 50%;
+          visibility: hidden;
+          flex-direction: column;
+          min-width: 200px;
+          height: 80px;
+          padding: 10px;
+          transition: .5s;
+          transform: translateX(-50%);
+          opacity: 0;
+          color: #ffffff;
+          border-radius: 3px;
+          background-color: #000000;
+          font-weight: normal;
+
+          span {
+            font-size: 14px;
+          }
+
+          .num {
+            font-size: 20px;
+            font-weight: bold;
+          }
+          small {
+            margin-top: 8px;
+            color: #9b9b9b;
+            font-size: 14px;
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 0;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0 10px;
+            border-style: solid;
+            border-color: #000000 transparent transparent transparent;
+          }
         }
 
-        &.down {
-          color: $color-red;
+        &:hover .tip {
+          visibility: visible;
+          opacity: 1;
         }
       }
     }
@@ -180,5 +241,13 @@
         font-weight: bold;
       }
     }
+  }
+}
+
+// 客製el樣式
+.daterange-dropdown-menu {
+  .el-dropdown-menu__item:not(.is-disabled):hover {
+    color: $color-white;
+    background-color: $color-black;
   }
 }

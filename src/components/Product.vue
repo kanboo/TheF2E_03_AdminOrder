@@ -2,27 +2,57 @@
     <div class="main product">
     <div class="container">
 
-      <el-dropdown class="tagSelect" trigger="click" @command="handleTag">
-        <span class="el-dropdown-link">
-          <i class="fas fa-tag"></i>
-          勾選項目<i class="fas fa-caret-down"></i>：
-          {{ tagSelect.label}}
-        </span>
-        <el-dropdown-menu slot="dropdown" >
-          <el-dropdown-item
-            :command="item"
-            v-for="item in tagOptions" :key="item.value">
-            {{item.label}}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <div class="selectBox">
+
+        <el-checkbox
+          v-model="isCheckedTag"
+          class="checkedTag"
+          @change="handTagSelect">
+        </el-checkbox>
+
+        <el-dropdown class="tagSelect"
+          placement="bottom-start"
+          trigger="hover"
+          @command="handleTag">
+          <span class="el-dropdown-link">
+            <i class="fas fa-caret-down"></i>
+            <!-- {{ tagSelect.label}} -->
+          </span>
+          <el-dropdown-menu slot="dropdown" class="tag-dropdown-menu">
+            <el-dropdown-item
+              :command="item"
+              v-for="item in tagOptions" :key="item.value">
+              {{item.label}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <el-dropdown class="stateChange"
+          placement="bottom-start"
+          trigger="hover"
+          @command="changeState">
+          <span class="el-dropdown-link">
+            <i class="fas fa-tags"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown" class="stateChange-dropdown-menu">
+            <span class="stateChange__title">Change Status to...</span>
+            <el-dropdown-item
+              :command="item"
+              v-for="item in statusOptions" :key="item.value">
+              {{item.label}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+      </div>
 
       <el-table
         ref="multipleTable"
         :data="tableData"
         stripe
-        :span-method="arraySpanMethod"
         style="width: 100%"
+        :span-method="arraySpanMethod"
+        :row-class-name="tableRowClassName"
         @selection-change="handleSelectionChange">
 
         <el-table-column
@@ -32,7 +62,7 @@
 
         <el-table-column
           label="Product"
-          width="150">
+          width="170">
           <template slot-scope="scope">
             <span>{{ scope.row.name }}</span>
             <div class="imgBox" :style="{backgroundImage: `url(${scope.row.imgUrl})`}">
@@ -43,17 +73,23 @@
 
         <el-table-column
           label="Original"
-          width="100">
+          width="110"
+          class-name="currency-title">
           <template slot-scope="scope">
-            {{ '$' + scope.row.original.toLocaleString('en-US') }}
+            <span class="currency-content">
+              {{ '$' + scope.row.original.toLocaleString('en-US') }}
+            </span>
           </template>
         </el-table-column>
 
         <el-table-column
           label="Discount"
-          width="100">
+          width="110"
+          class-name="currency-title">
           <template slot-scope="scope">
-            {{ '$' + scope.row.discount.toLocaleString('en-US') }}
+            <span class="currency-content">
+              {{ '$' + scope.row.discount.toLocaleString('en-US') }}
+            </span>
           </template>
         </el-table-column>
 
@@ -87,7 +123,7 @@
         <el-table-column
           label="Inventory"
           class-name="textRight"
-          width="100"
+          width="110"
           >
         </el-table-column>
 
@@ -95,11 +131,16 @@
           label="Status"
           width="200">
           <template slot-scope="scope">
-            <el-select v-model="scope.row.status" class="statusSelect">
+            <el-select
+              v-model="scope.row.status"
+              :key="scope.row.orderID"
+              class="statusSelect"
+              :class="['bg-' + scope.row.status.toLowerCase()]">
               <el-option v-for="item in statusOptions"
                 :key="item.value"
                 :label="item.label"
-                :value="item.value">
+                :value="item.value"
+                class="statusOptions">
               </el-option>
             </el-select>
           </template>
@@ -193,6 +234,7 @@ export default {
           ]
         }
       ],
+      isCheckedTag: false,
       tagOptions: [
         {
           label: 'Select All',
@@ -229,6 +271,7 @@ export default {
     handleTag(selectObj) {
       // console.log(command);
       this.tagSelect = selectObj;
+      this.isCheckedTag = true;
 
       switch (selectObj.value.toUpperCase()) {
         case 'SelectAll'.toUpperCase():
@@ -238,6 +281,7 @@ export default {
           break;
         case 'UnselectAll'.toUpperCase():
           this.tagSelect = {}; // 清空
+          this.isCheckedTag = false;
           this.$refs.multipleTable.clearSelection();
           break;
         default:
@@ -250,8 +294,42 @@ export default {
           });
       }
     },
+    handTagSelect() {
+      if (!this.isCheckedTag) {
+        this.tagSelect = {}; // 清空
+        this.$refs.multipleTable.clearSelection();
+      } else {
+        this.tableData.forEach(item => {
+          this.$refs.multipleTable.toggleRowSelection(item, true);
+        });
+      }
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    isSectionSelect(value) {
+      const index = this.editSectionSelect.findIndex(el => el === value);
+      if (index === -1) {
+        return false;
+      }
+      return true;
+    },
+    changeState(selectObj) {
+      // console.log(selectObj);
+      // console.log(this.$refs.multipleTable.selection);
+
+      this.$refs.multipleTable.selection.map(
+        // eslint-disable-next-line
+        item => (item.status = selectObj.value)
+      );
+    },
+    tableRowClassName({ row }) {
+      // console.log(row, index);
+      // console.log(row, row.status);
+      if (row.status.toUpperCase() === 'UNPUBLISHED') {
+        return 'unpublished';
+      }
+      return '';
     },
     // eslint-disable-next-line
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {

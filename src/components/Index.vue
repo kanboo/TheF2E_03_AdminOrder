@@ -5,7 +5,28 @@
       <section class="header">
         <h2>OVERVIEW</h2>
         <div class="dateInfo">
-          2018/6/6 > 2018/6/11 Weekly
+          <span class="date_start"> 2018/6/6 </span>
+          <span> >  </span>
+          <span class="date_end"> 2018/6/11 </span>
+
+          <el-dropdown class="daterange"
+            placement="bottom-start"
+            trigger="hover"
+            @command="handleDaterange">
+            <span class="el-dropdown-link">
+              {{ daterangeSelect.label}}
+              <i class="fas fa-caret-down"></i>
+            </span>
+            <el-dropdown-menu
+              slot="dropdown"
+              class="daterange-dropdown-menu">
+              <el-dropdown-item
+                :command="item"
+                v-for="item in daterangeOptions" :key="item.value">
+                {{item.label}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </section>
 
@@ -73,6 +94,19 @@
                 <i class="fas fa-arrow-up" v-if="item.type==='up'"></i>
                 <i class="fas fa-arrow-down" v-if="item.type==='down'"></i>
                 {{ item.percent + '%' }}
+
+                <div class="tip">
+                  <span>
+                    INCREASE
+                    <span class="num" :class="item.type">
+                      {{ item.increase.toLocaleString('en-US') }}
+                    </span>
+                    VIEWS
+                  </span>
+                  <small>
+                    last week: {{ item.lastweekIncrease.toLocaleString('en-US') }}
+                  </small>
+                </div>
               </span>
             </li>
           </ul>
@@ -135,6 +169,32 @@ export default {
   },
   data() {
     return {
+      daterangeSelect: {
+        label: 'Daily',
+        value: 'Daily'
+      },
+      daterangeOptions: [
+        {
+          label: 'Daily',
+          value: 'Daily'
+        },
+        {
+          label: 'Weekly',
+          value: 'Weekly'
+        },
+        {
+          label: 'Monthly',
+          value: 'Monthly'
+        },
+        {
+          label: 'Yearly',
+          value: 'Yearly'
+        },
+        {
+          label: 'Custom',
+          value: 'Custom'
+        }
+      ],
       chartData: {
         columns: ['日期', '綠線', '藍線', '紅線'],
         rows: [
@@ -162,7 +222,9 @@ export default {
           url: 'Facebook.com',
           price: 65836,
           type: 'up',
-          percent: 34
+          percent: 34,
+          increase: 1842,
+          lastweekIncrease: 1200
         },
         {
           name: 'google',
@@ -170,7 +232,9 @@ export default {
           url: 'google.com',
           price: 55836,
           type: 'up',
-          percent: 23
+          percent: 23,
+          increase: 1242,
+          lastweekIncrease: 900
         },
         {
           name: 'apple',
@@ -178,7 +242,9 @@ export default {
           url: 'Apple.com',
           price: 45200,
           type: 'down',
-          percent: 35
+          percent: 35,
+          increase: 942,
+          lastweekIncrease: 1212
         },
         {
           name: 'wordpress',
@@ -186,7 +252,9 @@ export default {
           url: 'Wordpress.com',
           price: 30836,
           type: 'down',
-          percent: 19
+          percent: 19,
+          increase: 841,
+          lastweekIncrease: 1000
         },
         {
           name: 'apple',
@@ -194,7 +262,9 @@ export default {
           url: 'Apple.com',
           price: 45200,
           type: 'down',
-          percent: 35
+          percent: 35,
+          increase: 1242,
+          lastweekIncrease: 900
         }
       ],
       orderData: [
@@ -233,7 +303,12 @@ export default {
       ]
     };
   },
-  methods: {},
+  methods: {
+    handleDaterange(selectObj) {
+      // console.log(command);
+      this.daterangeSelect = selectObj;
+    }
+  },
   computed: {
     ...mapGetters(['totalCost', 'netIncome']),
     getTotalRevenue() {
