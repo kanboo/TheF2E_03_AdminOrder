@@ -167,6 +167,22 @@ export default {
     FontAwesomeIcon,
     IndexFooter
   },
+  mounted() {
+    const ajaxChartData = [];
+
+    for (let i = 0; i < 10; i += 1) {
+      ajaxChartData.push({
+        日期: this.$moment()
+          .subtract(30 - i, 'days')
+          .format('DD MMM'),
+        紅線: Math.floor(this.$faker().random.number()),
+        藍線: Math.floor(this.$faker().random.number()),
+        綠線: Math.floor(this.$faker().random.number())
+      });
+    }
+
+    this.chartData.rows = ajaxChartData;
+  },
   data() {
     return {
       daterangeSelect: {
@@ -197,14 +213,7 @@ export default {
       ],
       chartData: {
         columns: ['日期', '綠線', '藍線', '紅線'],
-        rows: [
-          { 日期: '6 JUN', 紅線: 1393, 藍線: 2093, 綠線: 7000 },
-          { 日期: '7 JUN', 紅線: 3530, 藍線: 5330, 綠線: 9000 },
-          { 日期: '8 JUN', 紅線: 2923, 藍線: 4623, 綠線: 7000 },
-          { 日期: '9 JUN', 紅線: 1723, 藍線: 6143, 綠線: 8000 },
-          { 日期: '10 JUN', 紅線: 3792, 藍線: 2492, 綠線: 7500 },
-          { 日期: '11 JUN', 紅線: 4593, 藍線: 1423, 綠線: 8000 }
-        ]
+        rows: []
       },
       chartSettings: {
         metrics: ['綠線', '藍線', '紅線'],

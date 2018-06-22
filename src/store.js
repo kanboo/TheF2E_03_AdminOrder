@@ -5,10 +5,11 @@ import Vue from 'vue';
 import axios from 'axios';
 
 Vue.use(Vuex);
+Vue.use(require('vue-faker'));
 
 const state = {
-  totalCost: 10000,
-  netIncome: 30000
+  totalCost: Math.floor(Vue.faker().random.number()),
+  netIncome: Math.floor(Vue.faker().random.number())
 };
 
 /**

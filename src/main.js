@@ -23,6 +23,9 @@ Vue.use(VueAxios, axios);
 Vue.use(Vuex);
 Vue.use(ElementUI);
 Vue.use(VCharts);
+Vue.use(require('vue-faker'));
+Vue.use(require('vue-moment'));
+
 fontawesome.library.add(faStar, faSearch, faGithub);
 
 Vue.config.productionTip = false;

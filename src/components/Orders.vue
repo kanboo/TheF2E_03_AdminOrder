@@ -96,7 +96,7 @@
           v-if="isSectionSelect('Product List')">
           <template slot-scope="scope">
             <ul class="productList">
-              <li class="item" v-for="item in scope.row.productList" :key="item.name">
+              <li class="item" v-for="(item, index) in scope.row.productList" :key="index">
                 <span class="title">{{ item.name }}</span>
                 <div class="info">
                   <span class="price">
@@ -200,55 +200,44 @@
 <script>
 export default {
   name: 'Orders',
+  mounted() {
+    const ajaxData = [];
+    const myTag = ['paid', 'unpaid', 'shipping', 'done'];
+
+    for (let i = 0; i < 10; i += 1) {
+      const productList = [];
+
+      for (let j = 0; j < this.getRandom(4, 1); j += 1) {
+        productList.push({
+          name: this.$faker().commerce.product(),
+          price: Math.floor(this.$faker().commerce.price()),
+          count: this.getRandom(30, 1)
+        });
+      }
+
+      ajaxData.push({
+        orderID: new Date().getTime(),
+        customer: this.$faker().name.firstName(),
+        productList,
+        total: this.countProductListTotal(productList),
+        addTime: this.$moment(this.$faker().date.past())
+          .format('YYYY/M/D HH:m')
+          .toString(),
+        checkOut: this.$moment(this.$faker().date.past())
+          .format('YYYY/M/D HH:m')
+          .toString(),
+        address: `${this.$faker().address.streetAddress()}, \n${this.$faker().address.city()}`,
+        phone: this.$faker().phone.phoneNumberFormat(),
+        email: this.$faker().internet.email(),
+        status: myTag[Math.floor(Math.random() * myTag.length)]
+      });
+
+      this.tableData = ajaxData;
+    }
+  },
   data() {
     return {
-      tableData: [
-        {
-          orderID: 'T0001',
-          customer: 'Ian Medina',
-          productList: [
-            { name: 'Vestibulum.', price: 1000, count: 10 },
-            { name: 'Curabitur lo.', price: 2000, count: 10 },
-            { name: 'Nam porttito.', price: 3000, count: 10 }
-          ],
-          total: 1000,
-          addTime: '2018/6/8 13:39',
-          checkOut: '2018/6/8 13:39',
-          address: '386 Windler Drives',
-          phone: '0912345678',
-          email: 'boss@gmail.com',
-          status: 'Unpaid'
-        },
-        {
-          orderID: 'T0002',
-          customer: 'Manuel Stephens',
-          productList: [{ name: 'Vestibulum.', price: 1000, count: 10 }],
-          total: 1000,
-          addTime: '2018/6/8 13:39',
-          checkOut: '2018/6/8 13:39',
-          address: '386 Windler Drives',
-          phone: '0912345678',
-          email: 'boss@gmail.com',
-          status: 'Done'
-        },
-        {
-          orderID: 'T0003',
-          customer: 'Daisy Reynolds',
-          productList: [
-            { name: 'Vestibulum.', price: 1000, count: 10 },
-            { name: 'Curabitur lo', price: 2000, count: 10 },
-            { name: 'Nam porttito.', price: 3000, count: 10 },
-            { name: 'Donec facili.', price: 2000, count: 10 }
-          ],
-          total: 1000,
-          addTime: '2018/6/8 13:39',
-          checkOut: '2018/6/8 13:39',
-          address: '386 Windler Drives',
-          phone: '0912345678',
-          email: 'boss@gmail.com',
-          status: 'Paid'
-        }
-      ],
+      tableData: [],
       isCheckedTag: false,
       tagOptions: [
         {
@@ -281,19 +270,19 @@ export default {
       statusOptions: [
         {
           label: 'Paid',
-          value: 'Paid'
+          value: 'paid'
         },
         {
           label: 'Unpaid',
-          value: 'Unpaid'
+          value: 'unpaid'
         },
         {
           label: 'Shipping',
-          value: 'Shipping'
+          value: 'shipping'
         },
         {
           label: 'Done',
-          value: 'Done'
+          value: 'done'
         }
       ],
       editSectionOptions: [
@@ -320,6 +309,18 @@ export default {
     };
   },
   methods: {
+    getRandom(maxNum, minNum) {
+      // eslint-disable-next-line
+      return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+    },
+    countProductListTotal(obj) {
+      return obj.reduce((prev, element) => {
+        // console.log(prev,element);
+        const sum = element.price * element.count;
+        // 與之前的數值加總，回傳後代入下一輪的處理
+        return prev + sum;
+      }, 0);
+    },
     handleTag(selectObj) {
       // console.log(command);
       this.tagSelect = selectObj;

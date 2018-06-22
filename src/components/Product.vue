@@ -114,7 +114,7 @@
                 </div>
                 <div class="column">
                   <span v-for="(inventory, index) in item.inventorys" :key="index">
-                    {{inventory.count}}
+                    {{inventory.count.toLocaleString('en-US')}}
                   </span>
                 </div>
               </div>
@@ -276,85 +276,55 @@
 <script>
 export default {
   name: 'Product',
+  mounted() {
+    const ajaxData = [];
+    const myTag = ['PUBLISHED', 'UNPUBLISHED'];
+
+    for (let i = 0; i < 10; i += 1) {
+      const originPrice = Math.floor(this.$faker().commerce.price());
+
+      ajaxData.push({
+        productID: new Date().getTime(),
+        name: this.$faker().commerce.productName(),
+        imgUrl: `https://picsum.photos/70/70?image=${this.getRandom(
+          1000,
+          980
+        )}`,
+        original: originPrice,
+        discount: Math.floor(parseInt(originPrice, 10) * 0.75),
+        status: myTag[Math.floor(Math.random() * myTag.length)],
+        productInfo: [
+          {
+            size: 'L',
+            inventorys: [
+              {
+                color: 'Red',
+                count: this.getRandom(10000, 1)
+              },
+              {
+                color: 'Blue',
+                count: this.getRandom(10000, 1)
+              }
+            ]
+          },
+          {
+            size: 'M',
+            inventorys: [
+              {
+                color: 'Green',
+                count: this.getRandom(10000, 1)
+              }
+            ]
+          }
+        ]
+      });
+
+      this.tableData = ajaxData;
+    }
+  },
   data() {
     return {
-      tableData: [
-        {
-          productID: 'T0001',
-          name: 'Mauris non tem.',
-          imgUrl:
-            'https://s3.amazonaws.com/uifaces/faces/twitter/giuliusa/128.jpg',
-          original: 3200,
-          discount: 2800,
-          status: 'PUBLISHED',
-          productInfo: [
-            {
-              size: 'L',
-              inventorys: [
-                {
-                  color: 'aaa',
-                  count: 30
-                },
-                {
-                  color: 'bbb',
-                  count: 20
-                }
-              ]
-            },
-            {
-              size: 'M',
-              inventorys: [
-                {
-                  color: 'ccc',
-                  count: 300
-                }
-              ]
-            }
-          ]
-        },
-        {
-          productID: 'T0002',
-          name: 'Curabitur lobo.',
-          imgUrl:
-            'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-          original: 3200,
-          discount: 2800,
-          status: 'UNPUBLISHED',
-          productInfo: [
-            {
-              size: 'L',
-              inventorys: [
-                {
-                  color: 'Red',
-                  count: 30
-                },
-                {
-                  color: 'Blue',
-                  count: 20
-                }
-              ]
-            },
-            {
-              size: 'M',
-              inventorys: [
-                {
-                  color: 'Orange',
-                  count: 300
-                }
-              ]
-            },
-            {
-              size: 'S',
-              inventorys: [
-                {
-                  color: 'Pink',
-                  count: 16
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      tableData: [],
       isCheckedTag: false,
       tagOptions: [
         {
@@ -421,6 +391,18 @@ export default {
     };
   },
   methods: {
+    getRandom(maxNum, minNum) {
+      // eslint-disable-next-line
+      return Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+    },
+    countProductListTotal(obj) {
+      return obj.reduce((prev, element) => {
+        // console.log(prev,element);
+        const sum = element.price * element.count;
+        // 與之前的數值加總，回傳後代入下一輪的處理
+        return prev + sum;
+      }, 0);
+    },
     handleTag(selectObj) {
       // console.log(command);
       this.tagSelect = selectObj;
