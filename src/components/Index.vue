@@ -5,9 +5,13 @@
       <section class="header">
         <h2>OVERVIEW</h2>
         <div class="dateInfo">
-          <span class="date_start"> 2018/6/6 </span>
+          <span class="date_start">
+            {{$moment().subtract(daterangeSelect.value, 'days').format("YYYY/MM/DD")}}
+          </span>
           <span> >  </span>
-          <span class="date_end"> 2018/6/11 </span>
+          <span class="date_end">
+            {{$moment().format("YYYY/MM/DD")}}
+          </span>
 
           <el-dropdown class="daterange"
             placement="bottom-start"
@@ -167,50 +171,28 @@ export default {
     FontAwesomeIcon,
     IndexFooter
   },
-  mounted() {
-    const ajaxChartData = [];
-
-    for (let i = 0; i < 10; i += 1) {
-      ajaxChartData.push({
-        日期: this.$moment()
-          .subtract(30 - i, 'days')
-          .format('DD MMM'),
-        紅線: Math.floor(this.$faker().random.number()),
-        藍線: Math.floor(this.$faker().random.number()),
-        綠線: Math.floor(this.$faker().random.number())
-      });
-    }
-
-    this.chartData.rows = ajaxChartData;
-  },
   data() {
     return {
       daterangeSelect: {
-        label: 'Daily',
-        value: 'Daily'
+        label: 'Weekly',
+        value: '7'
       },
       daterangeOptions: [
         {
-          label: 'Daily',
-          value: 'Daily'
-        },
-        {
           label: 'Weekly',
-          value: 'Weekly'
+          value: '7'
         },
         {
           label: 'Monthly',
-          value: 'Monthly'
+          value: '30'
         },
         {
           label: 'Yearly',
-          value: 'Yearly'
-        },
-        {
-          label: 'Custom',
-          value: 'Custom'
+          value: '365'
         }
       ],
+      totalCost: 0,
+      netIncome: 0,
       chartData: {
         columns: ['日期', '綠線', '藍線', '紅線'],
         rows: []
@@ -312,14 +294,44 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.getCharData();
+  },
   methods: {
     handleDaterange(selectObj) {
       // console.log(command);
       this.daterangeSelect = selectObj;
+      this.getCharData();
+    },
+    getCharData() {
+      const ajaxChartData = [];
+      let totalCost = 0;
+      let netIncome = 0;
+
+      for (let i = 0; i < this.daterangeSelect.value; i += 1) {
+        const cost = Math.floor(this.$faker().random.number());
+        const income = Math.floor(this.$faker().random.number());
+        const revenue = cost + income;
+
+        totalCost += cost;
+        netIncome += income;
+
+        ajaxChartData.push({
+          日期: this.$moment()
+            .subtract(this.daterangeSelect.value - i, 'days')
+            .format('DD MMM'),
+          紅線: cost,
+          藍線: income,
+          綠線: revenue
+        });
+      }
+
+      this.totalCost = totalCost;
+      this.netIncome = netIncome;
+      this.chartData.rows = ajaxChartData;
     }
   },
   computed: {
-    ...mapGetters(['totalCost', 'netIncome']),
     getTotalRevenue() {
       return this.totalCost + this.netIncome;
     }

@@ -8,8 +8,8 @@ Vue.use(Vuex);
 Vue.use(require('vue-faker'));
 
 const state = {
-  totalCost: Math.floor(Vue.faker().random.number()),
-  netIncome: Math.floor(Vue.faker().random.number())
+  // totalCost: Math.floor(Vue.faker().random.number()),
+  // netIncome: Math.floor(Vue.faker().random.number())
 };
 
 /**
@@ -18,19 +18,19 @@ computed:{
 },
  */
 const getters = {
-  totalCost: state => state.totalCost,
-  netIncome: state => state.netIncome
+  // totalCost: state => state.totalCost,
+  // netIncome: state => state.netIncome
 };
 
 // vue 裡用 this.$store.commit('showLoading' , true)
 // mutation 必須是同步函數, 很重要
 const mutations = {
-  totalCost(state, value) {
-    state.totalCost = value;
-  },
-  netIncome(state, value) {
-    state.netIncome = value;
-  }
+  // totalCost(state, value) {
+  //   state.totalCost = value;
+  // },
+  // netIncome(state, value) {
+  //   state.netIncome = value;
+  // }
 };
 
 /*

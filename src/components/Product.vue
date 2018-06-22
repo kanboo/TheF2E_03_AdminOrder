@@ -276,52 +276,6 @@
 <script>
 export default {
   name: 'Product',
-  mounted() {
-    const ajaxData = [];
-    const myTag = ['PUBLISHED', 'UNPUBLISHED'];
-
-    for (let i = 0; i < 10; i += 1) {
-      const originPrice = Math.floor(this.$faker().commerce.price());
-
-      ajaxData.push({
-        productID: new Date().getTime(),
-        name: this.$faker().commerce.productName(),
-        imgUrl: `https://picsum.photos/70/70?image=${this.getRandom(
-          1000,
-          980
-        )}`,
-        original: originPrice,
-        discount: Math.floor(parseInt(originPrice, 10) * 0.75),
-        status: myTag[Math.floor(Math.random() * myTag.length)],
-        productInfo: [
-          {
-            size: 'L',
-            inventorys: [
-              {
-                color: 'Red',
-                count: this.getRandom(10000, 1)
-              },
-              {
-                color: 'Blue',
-                count: this.getRandom(10000, 1)
-              }
-            ]
-          },
-          {
-            size: 'M',
-            inventorys: [
-              {
-                color: 'Green',
-                count: this.getRandom(10000, 1)
-              }
-            ]
-          }
-        ]
-      });
-
-      this.tableData = ajaxData;
-    }
-  },
   data() {
     return {
       tableData: [],
@@ -389,6 +343,52 @@ export default {
         ]
       }
     };
+  },
+  mounted() {
+    const ajaxData = [];
+    const myTag = ['PUBLISHED', 'UNPUBLISHED'];
+
+    for (let i = 0; i < 10; i += 1) {
+      const originPrice = Math.floor(this.$faker().commerce.price());
+
+      ajaxData.push({
+        productID: new Date().getTime(),
+        name: this.$faker().commerce.productName(),
+        imgUrl: `https://picsum.photos/70/70?image=${this.getRandom(
+          1000,
+          980
+        )}`,
+        original: originPrice,
+        discount: Math.floor(parseInt(originPrice, 10) * 0.75),
+        status: myTag[Math.floor(Math.random() * myTag.length)],
+        productInfo: [
+          {
+            size: 'L',
+            inventorys: [
+              {
+                color: 'Red',
+                count: this.getRandom(10000, 1)
+              },
+              {
+                color: 'Blue',
+                count: this.getRandom(10000, 1)
+              }
+            ]
+          },
+          {
+            size: 'M',
+            inventorys: [
+              {
+                color: 'Green',
+                count: this.getRandom(10000, 1)
+              }
+            ]
+          }
+        ]
+      });
+
+      this.tableData = ajaxData;
+    }
   },
   methods: {
     getRandom(maxNum, minNum) {

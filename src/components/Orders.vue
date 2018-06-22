@@ -200,41 +200,6 @@
 <script>
 export default {
   name: 'Orders',
-  mounted() {
-    const ajaxData = [];
-    const myTag = ['paid', 'unpaid', 'shipping', 'done'];
-
-    for (let i = 0; i < 10; i += 1) {
-      const productList = [];
-
-      for (let j = 0; j < this.getRandom(4, 1); j += 1) {
-        productList.push({
-          name: this.$faker().commerce.product(),
-          price: Math.floor(this.$faker().commerce.price()),
-          count: this.getRandom(30, 1)
-        });
-      }
-
-      ajaxData.push({
-        orderID: new Date().getTime(),
-        customer: this.$faker().name.firstName(),
-        productList,
-        total: this.countProductListTotal(productList),
-        addTime: this.$moment(this.$faker().date.past())
-          .format('YYYY/M/D HH:m')
-          .toString(),
-        checkOut: this.$moment(this.$faker().date.past())
-          .format('YYYY/M/D HH:m')
-          .toString(),
-        address: `${this.$faker().address.streetAddress()}, \n${this.$faker().address.city()}`,
-        phone: this.$faker().phone.phoneNumberFormat(),
-        email: this.$faker().internet.email(),
-        status: myTag[Math.floor(Math.random() * myTag.length)]
-      });
-
-      this.tableData = ajaxData;
-    }
-  },
   data() {
     return {
       tableData: [],
@@ -307,6 +272,41 @@ export default {
         'Status'
       ]
     };
+  },
+  mounted() {
+    const ajaxData = [];
+    const myTag = ['paid', 'unpaid', 'shipping', 'done'];
+
+    for (let i = 0; i < 10; i += 1) {
+      const productList = [];
+
+      for (let j = 0; j < this.getRandom(4, 1); j += 1) {
+        productList.push({
+          name: this.$faker().commerce.product(),
+          price: Math.floor(this.$faker().commerce.price()),
+          count: this.getRandom(30, 1)
+        });
+      }
+
+      ajaxData.push({
+        orderID: new Date().getTime(),
+        customer: this.$faker().name.firstName(),
+        productList,
+        total: this.countProductListTotal(productList),
+        addTime: this.$moment(this.$faker().date.past())
+          .format('YYYY/M/D HH:m')
+          .toString(),
+        checkOut: this.$moment(this.$faker().date.past())
+          .format('YYYY/M/D HH:m')
+          .toString(),
+        address: `${this.$faker().address.streetAddress()}, \n${this.$faker().address.city()}`,
+        phone: this.$faker().phone.phoneNumberFormat(),
+        email: this.$faker().internet.email(),
+        status: myTag[Math.floor(Math.random() * myTag.length)]
+      });
+
+      this.tableData = ajaxData;
+    }
   },
   methods: {
     getRandom(maxNum, minNum) {
