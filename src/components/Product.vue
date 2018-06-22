@@ -161,58 +161,113 @@
           <div class="title">
             ADD NEW PRODUCT
           </div>
-          <button class="modal-close" @click="isShowModal = !isShowModal">
+          <button class="modal-close" @click="closeModal">
             <i class="fas fa-times"></i>
           </button>
         </div>
         <div class="addProduct__content">
-          <div class="panel__left">
-            <div class="upload">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <span>Drag an image or click here to upload…</span>
-            </div>
-            <div class="images">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
-              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
-            </div>
-          </div>
-          <div class="panel__right">
 
-            <b>Product Discription</b>
-            <input type="text" placeholder="Vestibulum nec">
-            <textarea placeholder="Discription"></textarea>
-            <b>Product Discription</b>
-            <div class="n2">
-              <label class="set" title="Original">
-                <input type="text" value="$3,200">
-              </label>
-              <label class="set" title="Discount">
-                <input type="text" value="$2,800">
-              </label>
+          <div class="panel">
+            <div class="panel__left">
+              <div class="upload">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Drag an image or click here to upload…</span>
+              </div>
+              <div class="images">
+                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/chandlervdw/128.jpg" alt="">
+                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/chandlervdw/128.jpg" alt="">
+                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/chandlervdw/128.jpg" alt="">
+                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
+                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
+                <img src="https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg" alt="">
+              </div>
             </div>
-            <b>Specification</b>
-            <div class="n3">
-              <label class="set" title="Size">
-                <select>
-                  <option>L</option>
-                  <option>M</option>
-                  <option>S</option>
-                </select> </label>
-              <label class="set" title="Color">
-                <input value="Gray">
-              </label>
-              <label class="set" title="Inventory">
-                <input value="$2,800">
-              </label> </div>
-              <a class="add-specification">add new specification</a>
+            <div class="panel__right">
+
+              <b>Product Discription</b>
+              <el-input
+                v-model="newProduct.name"
+                placeholder="Vestibulum nec">
+              </el-input>
+              <el-input
+                type="textarea"
+                :autosize="{ minRows: 7, maxRows: 7}"
+                placeholder="Discription"
+                v-model="newProduct.discription">
+              </el-input>
+
+              <b>Price</b>
+              <div class="n2">
+                <el-input
+                  class="original"
+                  placeholder="$0"
+                  v-model="newProduct.original">
+                  <template slot="prepend">Original</template>
+                </el-input>
+                <el-input
+                  class="disconut"
+                  placeholder="$0"
+                  v-model="newProduct.disconut">
+                  <template slot="prepend">Discount</template>
+                </el-input>
+              </div>
+
+              <b>Specification</b>
+              <div class="n3"
+                v-for="(item, index) in newProduct.specification" :key="index">
+
+                <div
+                  class="el-input el-input-group el-input-group--prepend size">
+                  <div class="el-input-group__prepend">Size</div>
+                  <el-select
+                    v-model="item.size"
+                    placeholder="">
+                    <el-option
+                      v-for="item in sizeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </div>
+
+                <el-input
+                  class="color"
+                  placeholder=""
+                  v-model="item.color">
+                  <template slot="prepend">Color</template>
+                </el-input>
+
+                <el-input
+                  class="inventory"
+                  placeholder=""
+                  v-model="item.inventory">
+                  <template slot="prepend">Inventory</template>
+                </el-input>
+
+              </div>
+              <el-button
+                class="btn-addSpecification"
+                @click="addSpecification"
+              >
+                ADD NEW SPECIFICATION
+                <i class="fas fa-plus"></i>
+              </el-button>
+
             </div>
+
+          </div>
+
+          <div class="footer">
+            <el-button class="save"  @click="closeModal">
+              SAVE DRAFT
+            </el-button>
+            <el-button class="publish"  @click="closeModal">
+              PUBLISH
+            </el-button>
+          </div>
 
         </div>
-
 
       </div>
     </div>
@@ -331,7 +386,38 @@ export default {
           label: 'UNPUBLISHED'
         }
       ],
-      isShowModal: false
+      sizeOptions: [
+        {
+          value: 'XL',
+          label: 'XL'
+        },
+        {
+          value: 'L',
+          label: 'L'
+        },
+        {
+          value: 'M',
+          label: 'M'
+        },
+        {
+          value: 'S',
+          label: 'S'
+        }
+      ],
+      isShowModal: false,
+      newProduct: {
+        name: '',
+        discription: '',
+        original: '',
+        disconut: '',
+        specification: [
+          {
+            size: '',
+            color: '',
+            inventory: ''
+          }
+        ]
+      }
     };
   },
   methods: {
@@ -414,6 +500,30 @@ export default {
           colspan: 0
         };
       }
+    },
+    addSpecification() {
+      this.newProduct.specification.push({
+        size: '',
+        color: '',
+        inventory: ''
+      });
+    },
+    closeModal() {
+      this.newProduct = {
+        name: '',
+        discription: '',
+        original: '',
+        disconut: '',
+        specification: [
+          {
+            size: '',
+            color: '',
+            inventory: ''
+          }
+        ]
+      };
+
+      this.isShowModal = false;
     }
   }
 };
