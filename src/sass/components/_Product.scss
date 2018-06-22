@@ -28,6 +28,16 @@
       margin-left: 5px;
       font-weight: bold;
     }
+
+    .btn-add {
+      height: 34px;
+      margin-left: auto;
+      padding: 0 20px;
+      color: $color-white;
+      border: 1px solid $color-black;
+      background: $color-black;
+      font-weight: bold;
+    }
   }
 
   .el-table {
@@ -150,4 +160,124 @@
   .el-input__inner {
     background: $color-gray-dark;
   }
+}
+
+// The mask
+
+.mask {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  transition: .7s;
+  opacity: 0;
+  background: rgba(52, 73, 94, .8);
+}
+
+// Modal
+
+.modal {
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  visibility: hidden;
+  transition: .5s ease-out;
+  transform: translate(-50%, 50%);
+  opacity: 0;
+  background: #bdc3c7;
+}
+
+.addProduct {
+  overflow: hidden;
+  width: 940px;
+  height: 700px;
+  border-radius: 4px;
+
+  &__header {
+    @include flex(space-between, center);
+
+    width: 100%;
+    height: 64px;
+    padding: 0 35px;
+    color: $color-white;
+    background: $color-black;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  &__content {
+    @include flex(space-between, flex-start);
+
+    padding: 30px;
+
+     > div {
+      width: calc((100% - 30px) / 2);
+    }
+
+    .panel__left {
+      .upload {
+        @include flex(center);
+
+        position: relative;
+        flex-direction: column;
+        width: 100%;
+        height: 150px;
+        color: #757575;
+        border-radius: 2px;
+        background-color: #ebebeb;
+        font-size: 16px;
+        font-weight: bold;
+
+        i {
+          margin-bottom: 8px;
+          font-size: 40px;
+        }
+      }
+      .images {
+        @include flex(space-between);
+
+        width: 100%;
+        margin-top: 8px;
+
+        flex-wrap: wrap;
+      }
+    }
+
+    .panel__right {
+      @include flex(flex-start);
+
+      flex-direction: column;
+    }
+  }
+}
+
+// Close Button
+
+.modal-close {
+  width: 35px;
+  height: 30px;
+  cursor: pointer;
+  color: #ffffff;
+  border: 0;
+  background: #000000;
+  font-size: 24px;
+}
+
+// Class Active
+
+.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+// When active class is added, that affects the modal class
+
+.active + .modal {
+  visibility: visible;
+  transform: translate(-50%, -50%);
+  opacity: 1;
 }
