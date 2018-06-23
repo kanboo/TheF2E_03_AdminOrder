@@ -11,6 +11,10 @@
     max-width: 1024px;
     padding: 42px;
     padding-top: 10px;
+
+    @media screen and (max-width: $mq-mobile) {
+      padding: 10px;
+    }
   }
 
   .selectBox {

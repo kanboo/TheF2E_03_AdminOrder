@@ -11,6 +11,10 @@
     max-width: 1024px;
     padding: 42px;
     padding-top: 10px;
+
+    @media screen and (max-width: $mq-mobile) {
+      padding: 10px;
+    }
   }
 
   // 共用 ====================================
@@ -25,15 +29,36 @@
 
     background: $color-bg-gray;
 
+    @media screen and (max-width: $mq-pad) {
+      flex-flow: wrap;
+    }
+
+    @media screen and (max-width: $mq-mobile) {
+    }
+
     h2 {
       font-size: $font-size-title;
       font-weight: bold;
     }
 
-    .daterange {
-      width: 74px;
-      text-align: right;
-      font-size: 16px;
+    .dateInfo {
+      @media screen and (max-width: $mq-mobile) {
+        // text-align: right;
+        @include flex(flex-start, center);
+
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      .daterange {
+        width: 74px;
+        text-align: right;
+        font-size: 16px;
+
+        @media screen and (max-width: $mq-mobile) {
+          margin-left: auto;
+        }
+      }
     }
   }
 
@@ -43,13 +68,23 @@
     width: 100%;
     margin-bottom: 1.5rem;
 
+    flex-wrap: wrap;
+
     .tileCount {
       @include flex(center);
 
       flex-direction: column;
-      min-width: 300px;
+      width: calc((100% - 40px) / 3);
       height: 138px;
       background: $color-white;
+
+      @media screen and (max-width: $mq-pad) {
+      }
+
+      @media screen and (max-width: $mq-mobile) {
+        width: 100%;
+        margin-top: 8px;
+      }
 
       .subtitle2 {
         margin-bottom: 1rem;
@@ -78,14 +113,24 @@
     @include flex(space-between, flex-start);
 
     width: 100%;
+
+    flex-wrap: wrap;
   }
 
   .websiteList,.orderList {
-    width: 100%;
-    max-width: 460px;
+    width: calc((100% - 20px) / 2);
     height: 456px;
     padding: 30px 40px;
     background: $color-white;
+
+    @media screen and (max-width: $mq-pad) {
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    @media screen and (max-width: $mq-mobile) {
+    }
   }
 
   .rankingInfo {
@@ -96,19 +141,50 @@
 
       padding: 24px 0;
 
+      @media screen and (max-width: $mq-pad) {
+      }
+
+      @media screen and (max-width: $mq-mobile) {
+        flex-wrap: wrap;
+
+         > span {
+          width: 50%;
+
+          &:nth-child(even) {
+            text-align: right;
+          }
+        }
+      }
+
       .icon {
         width: 45px;
         font-size: 45px;
+
+        @media screen and (max-width: $mq-mobile) {
+          width: 50%;
+        }
       }
+
       .name {
         margin-left: 1rem;
         color: $color-gray-dark;
         font-weight: bold;
+
+        @media screen and (max-width: $mq-mobile) {
+          margin-left: 0;
+        }
       }
       .price {
         margin-left: auto;
         font-size: 20px;
         font-weight: bold;
+
+        @media screen and (max-width: $mq-pad) {
+        }
+
+        @media screen and (max-width: $mq-mobile) {
+          margin-left: 0;
+        }
       }
 
       .up {
@@ -122,6 +198,10 @@
         position: relative;
         margin-left: 1.5rem;
         font-size: 1rem;
+
+        @media screen and (max-width: $mq-mobile) {
+          margin-left: 0;
+        }
 
         .tip {
           @include flex(center);
@@ -189,6 +269,13 @@
 
     .orderItem {
       @include flex(flex-start);
+
+      @media screen and (max-width: $mq-pad) {
+      }
+
+      @media screen and (max-width: $mq-mobile) {
+        flex-wrap: wrap;
+      }
 
       .imgBox {
         width: 140px;

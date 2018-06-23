@@ -4,6 +4,7 @@
 
       <section class="header">
         <h2>OVERVIEW</h2>
+
         <div class="dateInfo">
           <span class="date_start">
             {{$moment().subtract(daterangeSelect.value, 'days').format("YYYY/MM/DD")}}
