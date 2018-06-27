@@ -1,21 +1,22 @@
-# thef2e_03_adminorder
+# TheF2E_03_AdminOrder
 
-> A Vue.js project
+使用工具： Vue
 
-## Build Setup
+第三方套件： [Font Awesome](https://fontawesome.com/) 、 [Element](http://element.eleme.io/#/zh-CN)、[vue-faker](https://github.com/BrockReece/vue-faker)
 
-``` bash
-# install dependencies
-npm install
+主要目標： Vue 的運用、資料的操作
 
-# serve with hot reload at localhost:8080
-npm run dev
+Demo 連結：[AdminOrder](https://kanboo.github.io/TheF2E_03_AdminOrder/dist/index.html#/)
 
-# build for production with minification
-npm run build
+# Preview
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+![Image](https://raw.githubusercontent.com/kanboo/TheF2E_03_AdminOrder/master/SideProjectImage/AdminOrder_01.png)
+![Image](https://raw.githubusercontent.com/kanboo/TheF2E_03_AdminOrder/master/SideProjectImage/AdminOrder_02.png)
+![Image](https://raw.githubusercontent.com/kanboo/TheF2E_03_AdminOrder/master/SideProjectImage/AdminOrder_03.png)
+![Image](https://raw.githubusercontent.com/kanboo/TheF2E_03_AdminOrder/master/SideProjectImage/AdminOrder_04.png)
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# 資源
+
+Filter 設計稿：[Link](https://hexschool.github.io/THE_F2E_Design/week3-admin%20order/)
+
+The F2E - 前端修練精神時光屋：[Link](https://www.facebook.com/groups/173311386703334/)
