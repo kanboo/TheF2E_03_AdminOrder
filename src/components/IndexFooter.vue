@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '主題 - The F2E 前端修練精神時光屋',
+      title: '後台架構開發',
       author: 'Designed by Kanboo Wang'
     };
   }
@@ -62,7 +62,7 @@ export default {
   }
   &__link {
     // width: 100px;
-    transition: transform .4s;
+    transition: transform 0.4s;
     text-align: center;
     color: #ffffff;
     font-size: 24px;
@@ -78,5 +78,4 @@ export default {
     }
   }
 }
-
 </style>
